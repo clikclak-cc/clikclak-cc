@@ -1,0 +1,445 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="clikclak - Programming & Mechanical Keyboard ASMR">
+  <div class="app">
+    <!-- Navigation -->
+    <nav class="nav">
+      <ul class="nav-list">
+        <li><button class="nav-item active" data-tab="logo">Logo</button></li>
+        <li><button class="nav-item" data-tab="about">About</button></li>
+        <li><button class="nav-item" data-tab="youtube">YouTube</button></li>
+        <li><button class="nav-item" data-tab="keyboards">Keyboards</button></li>
+        <li><button class="nav-item" data-tab="links">Links</button></li>
+      </ul>
+    </nav>
+
+    <!-- Content -->
+    <main class="content">
+      <!-- Logo -->
+      <section class="panel active" data-panel="logo">
+        <img src="/logo.svg" alt="clikclak" class="logo-img" />
+      </section>
+
+      <!-- About -->
+      <section class="panel" data-panel="about">
+        <div class="panel-inner">
+          <h2 class="panel-title">About</h2>
+          <p>
+            <strong>clikclak</strong> is a content brand that combines hands-on programming,
+            infrastructure, and IaC tutorials with mechanical keyboard ASMR experiences.
+          </p>
+          <p>
+            The sound of typing code, the rhythm of keystrokes.
+            Learn technology and create while enjoying the satisfying sounds of mechanical keyboards.
+          </p>
+          <ul class="about-list">
+            <li><span class="bullet">▸</span> Infrastructure as Code</li>
+            <li><span class="bullet teal">▸</span> Cloud Architecture (AWS)</li>
+            <li><span class="bullet">▸</span> Hands-on Tutorials</li>
+            <li><span class="bullet teal">▸</span> Mechanical Keyboard Design</li>
+            <li><span class="bullet">▸</span> Typing ASMR</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- YouTube -->
+      <section class="panel" data-panel="youtube">
+        <div class="panel-inner">
+          <h2 class="panel-title">YouTube</h2>
+          <p class="panel-desc">
+            Hands-on videos on infrastructure and coding, accompanied by the satisfying sounds of mechanical keyboards.
+          </p>
+          <div class="youtube-placeholder">
+            <span class="play-icon">▶</span>
+            <span>Coming Soon</span>
+          </div>
+          <a href="#" class="btn" target="_blank" rel="noopener noreferrer">
+            Visit Channel →
+          </a>
+        </div>
+      </section>
+
+      <!-- Keyboards -->
+      <section class="panel" data-panel="keyboards">
+        <div class="panel-inner">
+          <h2 class="panel-title">Keyboards</h2>
+          <p class="panel-desc">Custom designed mechanical keyboards</p>
+          <div class="keyboard-grid">
+            <div class="keyboard-card">
+              <div class="keyboard-img"></div>
+              <h3>Project 01</h3>
+              <span>Coming Soon</span>
+            </div>
+            <div class="keyboard-card">
+              <div class="keyboard-img"></div>
+              <h3>Project 02</h3>
+              <span>Coming Soon</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Links -->
+      <section class="panel" data-panel="links">
+        <div class="panel-inner">
+          <h2 class="panel-title">Links</h2>
+          <div class="links-grid">
+            <a href="#" class="link-card" target="_blank" rel="noopener noreferrer">
+              <span class="link-icon">▶</span>
+              <span class="link-name">YouTube</span>
+            </a>
+            <a href="#" class="link-card" target="_blank" rel="noopener noreferrer">
+              <span class="link-icon">𝕏</span>
+              <span class="link-name">X (Twitter)</span>
+            </a>
+            <a href="#" class="link-card" target="_blank" rel="noopener noreferrer">
+              <span class="link-icon">◆</span>
+              <span class="link-name">GitHub</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>&copy; 2025 clikclak</span>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .app {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow: hidden;
+  }
+
+  /* Navigation - minimal style */
+  .nav {
+    padding: 2rem 3rem;
+  }
+
+  .nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .nav-item {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transition: width 0.3s ease, background 0s 0.3s;
+  }
+
+  .nav-item:hover {
+    color: var(--color-accent-secondary);
+  }
+
+  .nav-item.active {
+    color: var(--color-accent);
+  }
+
+  .nav-item:hover::after {
+    width: 100%;
+    background: var(--color-accent-secondary);
+    transition: width 0.3s ease, background 0s;
+  }
+
+  .nav-item.active::after {
+    width: 100%;
+    background: var(--color-accent);
+  }
+
+  /* Content */
+  .content {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 4rem;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .panel.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .panel-inner {
+    max-width: 650px;
+    text-align: center;
+  }
+
+  .panel-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .panel-desc {
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  /* Logo */
+  .logo-img {
+    width: 90%;
+    max-width: 1000px;
+    height: auto;
+  }
+
+  /* About */
+  .panel-inner p {
+    margin-bottom: 1.25rem;
+    line-height: 1.9;
+    font-size: 1.05rem;
+  }
+
+  .about-list {
+    list-style: none;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    text-align: left;
+  }
+
+  .about-list li {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+  }
+
+  .bullet {
+    color: var(--color-accent);
+    margin-right: 0.75rem;
+  }
+
+  .bullet.teal {
+    color: var(--color-accent-secondary);
+  }
+
+  /* YouTube */
+  .youtube-placeholder {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 16/9;
+    margin: 0 auto 2rem;
+    background: var(--color-bg-secondary);
+    border: 2px dashed var(--color-text-muted);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    opacity: 0.6;
+  }
+
+  .play-icon {
+    font-size: 2rem;
+    color: var(--color-accent-secondary);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 2.5rem;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+  }
+
+  .btn:hover {
+    background: var(--color-accent-secondary);
+    transform: translateY(-2px);
+    opacity: 1;
+  }
+
+  /* Keyboards */
+  .keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .keyboard-card {
+    background: var(--color-bg-secondary);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: left;
+    transition: transform 0.3s ease;
+  }
+
+  .keyboard-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .keyboard-img {
+    aspect-ratio: 16/10;
+    background: linear-gradient(135deg, #3d444b 0%, #292F36 100%);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .keyboard-card h3 {
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+    color: var(--color-accent-secondary);
+  }
+
+  .keyboard-card span {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+
+  /* Links */
+  .links-grid {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 2rem;
+    background: var(--color-bg-secondary);
+    border-radius: 12px;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+  }
+
+  .link-card:hover {
+    transform: translateY(-4px);
+    background: var(--color-accent-secondary);
+    color: var(--color-bg);
+    opacity: 1;
+  }
+
+  .link-card:hover .link-icon {
+    color: var(--color-bg);
+  }
+
+  .link-icon {
+    font-size: 1.5rem;
+    color: var(--color-accent-secondary);
+  }
+
+  .link-name {
+    font-weight: 700;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .nav {
+      padding: 1.5rem 1rem;
+    }
+
+    .nav-list {
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-item {
+      font-size: 0.9rem;
+    }
+
+    .panel {
+      padding: 1.5rem;
+    }
+
+    .panel-title {
+      font-size: 2rem;
+    }
+
+    .keyboard-grid {
+      grid-template-columns: 1fr;
+      max-width: 280px;
+    }
+
+    .links-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-img {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const navItems = document.querySelectorAll('.nav-item');
+    const panels = document.querySelectorAll('.panel');
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const tab = item.getAttribute('data-tab');
+
+        // Update nav
+        navItems.forEach(nav => nav.classList.remove('active'));
+        item.classList.add('active');
+
+        // Update panels with fade
+        panels.forEach(panel => {
+          if (panel.getAttribute('data-panel') === tab) {
+            panel.classList.add('active');
+          } else {
+            panel.classList.remove('active');
+          }
+        });
+      });
+    });
+  });
+</script>
