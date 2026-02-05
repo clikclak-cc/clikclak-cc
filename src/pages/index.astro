@@ -1,5 +1,46 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const CHANNEL_ID = 'UCpOIi12e0eNpcu9yeMVo3TA';
+const FEED_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+
+interface Video {
+  id: string;
+  title: string;
+  thumbnail: string;
+  url: string;
+}
+
+let videos: Video[] = [];
+
+try {
+  const response = await fetch(FEED_URL);
+  const xml = await response.text();
+
+  // Parse XML entries using regex (lightweight, no dependencies)
+  const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
+  const videoIdRegex = /<yt:videoId>([^<]+)<\/yt:videoId>/;
+  const titleRegex = /<title>([^<]+)<\/title>/;
+
+  let match;
+  while ((match = entryRegex.exec(xml)) !== null && videos.length < 10) {
+    const entry = match[1];
+    const videoIdMatch = entry.match(videoIdRegex);
+    const titleMatch = entry.match(titleRegex);
+
+    if (videoIdMatch && titleMatch) {
+      const id = videoIdMatch[1];
+      videos.push({
+        id,
+        title: titleMatch[1],
+        thumbnail: `https://img.youtube.com/vi/${id}/mqdefault.jpg`,
+        url: `https://www.youtube.com/watch?v=${id}`
+      });
+    }
+  }
+} catch (error) {
+  console.error('Failed to fetch YouTube feed:', error);
+}
 ---
 
 <Layout title="clikclak - Programming & Mechanical Keyboard ASMR">
@@ -57,48 +98,28 @@ import Layout from '../layouts/Layout.astro';
             Hands-on videos on infrastructure and coding, accompanied by the satisfying sounds of mechanical keyboards.
           </p>
           <div class="video-carousel">
-            <div class="video-card">
-              <a href="https://youtube.com/watch?v=dummy1" target="_blank" rel="noopener noreferrer">
+            {videos.length > 0 ? (
+              videos.map((video) => (
+                <div class="video-card">
+                  <a href={video.url} target="_blank" rel="noopener noreferrer">
+                    <div class="video-thumbnail">
+                      <img src={video.thumbnail} alt={video.title} loading="lazy" />
+                      <span class="play-icon">▶</span>
+                    </div>
+                    <h3 class="video-title">{video.title}</h3>
+                  </a>
+                </div>
+              ))
+            ) : (
+              <div class="video-card placeholder">
                 <div class="video-thumbnail">
                   <span class="play-icon">▶</span>
                 </div>
-                <h3 class="video-title">Terraform入門 - AWSインフラをコードで管理</h3>
-              </a>
-            </div>
-            <div class="video-card">
-              <a href="https://youtube.com/watch?v=dummy2" target="_blank" rel="noopener noreferrer">
-                <div class="video-thumbnail">
-                  <span class="play-icon">▶</span>
-                </div>
-                <h3 class="video-title">GitHub Actions CI/CD ハンズオン</h3>
-              </a>
-            </div>
-            <div class="video-card">
-              <a href="https://youtube.com/watch?v=dummy3" target="_blank" rel="noopener noreferrer">
-                <div class="video-thumbnail">
-                  <span class="play-icon">▶</span>
-                </div>
-                <h3 class="video-title">キーボードASMR - Cherry MX Brown</h3>
-              </a>
-            </div>
-            <div class="video-card">
-              <a href="https://youtube.com/watch?v=dummy4" target="_blank" rel="noopener noreferrer">
-                <div class="video-thumbnail">
-                  <span class="play-icon">▶</span>
-                </div>
-                <h3 class="video-title">Docker + ECS デプロイ実践</h3>
-              </a>
-            </div>
-            <div class="video-card">
-              <a href="https://youtube.com/watch?v=dummy5" target="_blank" rel="noopener noreferrer">
-                <div class="video-thumbnail">
-                  <span class="play-icon">▶</span>
-                </div>
-                <h3 class="video-title">CloudFront + S3 静的ホスティング</h3>
-              </a>
-            </div>
+                <h3 class="video-title">Coming Soon...</h3>
+              </div>
+            )}
           </div>
-          <a href="#" class="btn" target="_blank" rel="noopener noreferrer">
+          <a href={`https://www.youtube.com/@clikclak_cc`} class="btn" target="_blank" rel="noopener noreferrer">
             Visit Channel →
           </a>
         </div>
@@ -349,6 +370,10 @@ import Layout from '../layouts/Layout.astro';
     color: inherit;
   }
 
+  .video-card a:hover {
+    opacity: 1;
+  }
+
   .video-thumbnail {
     aspect-ratio: 16/9;
     background: linear-gradient(135deg, #3d444b 0%, #292F36 100%);
@@ -358,6 +383,16 @@ import Layout from '../layouts/Layout.astro';
     justify-content: center;
     margin-bottom: 0.75rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .video-thumbnail img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .video-card:hover .video-thumbnail {
@@ -368,13 +403,20 @@ import Layout from '../layouts/Layout.astro';
   .play-icon {
     font-size: 2rem;
     color: var(--color-accent-secondary);
-    opacity: 0.7;
+    opacity: 0;
     transition: opacity 0.3s ease, color 0.3s ease;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   }
 
   .video-card:hover .play-icon {
     opacity: 1;
     color: var(--color-accent);
+  }
+
+  .video-card.placeholder .play-icon {
+    opacity: 0.7;
   }
 
   .video-title {
