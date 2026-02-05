@@ -785,6 +785,9 @@ const keyboards = [
       );
     });
 
+    // Hide background on logo panel
+    document.body.classList.add('hide-bg');
+
     navItems.forEach(item => {
       item.addEventListener('click', () => {
         const tab = item.getAttribute('data-tab');
@@ -801,6 +804,13 @@ const keyboards = [
             panel.classList.remove('active');
           }
         });
+
+        // Toggle background visibility (hide on logo panel)
+        if (tab === 'logo') {
+          document.body.classList.add('hide-bg');
+        } else {
+          document.body.classList.remove('hide-bg');
+        }
 
         // Close mobile menu after selection
         hamburger?.classList.remove('open');

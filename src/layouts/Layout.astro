@@ -52,6 +52,27 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
     line-height: 1.6;
   }
 
+  body::before {
+    content: '';
+    position: fixed;
+    bottom: -5%;
+    right: -5%;
+    width: 40%;
+    height: 80%;
+    background-image: url('/keycapr.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center right;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  body.hide-bg::before {
+    opacity: 0;
+  }
+
   a {
     color: var(--color-accent);
     text-decoration: none;
