@@ -6,6 +6,11 @@ import Layout from '../layouts/Layout.astro';
   <div class="app">
     <!-- Navigation -->
     <nav class="nav">
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
       <ul class="nav-list">
         <li><button class="nav-item active" data-tab="logo">Logo</button></li>
         <li><button class="nav-item" data-tab="about">About</button></li>
@@ -379,19 +384,89 @@ import Layout from '../layouts/Layout.astro';
     font-size: 0.875rem;
   }
 
+  /* Hamburger button - hidden on desktop */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 100;
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-text);
+    margin: 5px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* Hamburger animation when open */
+  .hamburger.open .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .hamburger.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.open .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
   /* Responsive */
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
     .nav {
-      padding: 1.5rem 1rem;
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      position: relative;
+    }
+
+    .hamburger {
+      display: block;
     }
 
     .nav-list {
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--color-bg);
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 1rem 0 0.5rem;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+      z-index: 50;
+    }
+
+    .nav-list.open {
+      transform: translateY(0);
+    }
+
+    .nav-list li {
+      width: 100%;
+      text-align: center;
     }
 
     .nav-item {
-      font-size: 0.9rem;
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .nav-item::after {
+      display: none;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: var(--color-bg);
     }
 
     .panel {
@@ -422,6 +497,17 @@ import Layout from '../layouts/Layout.astro';
   document.addEventListener('DOMContentLoaded', () => {
     const navItems = document.querySelectorAll('.nav-item');
     const panels = document.querySelectorAll('.panel');
+    const hamburger = document.querySelector('.hamburger');
+    const navList = document.querySelector('.nav-list');
+
+    // Hamburger menu toggle
+    hamburger?.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navList?.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded',
+        hamburger.classList.contains('open').toString()
+      );
+    });
 
     navItems.forEach(item => {
       item.addEventListener('click', () => {
@@ -439,6 +525,11 @@ import Layout from '../layouts/Layout.astro';
             panel.classList.remove('active');
           }
         });
+
+        // Close mobile menu after selection
+        hamburger?.classList.remove('open');
+        navList?.classList.remove('open');
+        hamburger?.setAttribute('aria-expanded', 'false');
       });
     });
   });
