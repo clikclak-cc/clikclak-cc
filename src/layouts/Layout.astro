@@ -37,6 +37,31 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
     --font-main: 'Nunito', 'Arial Rounded MT Bold', 'Arial', sans-serif;
   }
 
+  /* Light mode - system preference */
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --color-bg: #fffcf9;
+      --color-bg-secondary: #F6F4F3;
+      --color-text: #292F36;
+      --color-text-muted: #323a42;
+    }
+  }
+
+  /* Manual theme overrides */
+  :root[data-theme="light"] {
+    --color-bg: #fffcf9;
+    --color-bg-secondary: #F6F4F3;
+    --color-text: #292F36;
+    --color-text-muted: #323a42;
+  }
+
+  :root[data-theme="dark"] {
+    --color-bg: #292F36;
+    --color-bg-secondary: #323a42;
+    --color-text: #fffcf9;
+    --color-text-muted: #F6F4F3;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -50,6 +75,7 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
     height: 100vh;
     overflow: hidden;
     line-height: 1.6;
+    transition: background 0.4s ease, color 0.4s ease;
   }
 
   body::before {
