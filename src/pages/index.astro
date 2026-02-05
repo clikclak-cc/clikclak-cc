@@ -396,33 +396,39 @@ const keyboards = [
   }
 
   /* Logo theme switching */
+  .logo-dark,
   .logo-light {
-    display: none;
+    position: absolute;
+    transition: opacity 0.4s ease;
+  }
+
+  .logo-light {
+    opacity: 0;
   }
 
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) .logo-dark {
-      display: none;
+      opacity: 0;
     }
     :root:not([data-theme="dark"]) .logo-light {
-      display: block;
+      opacity: 1;
     }
   }
 
   :root[data-theme="light"] .logo-dark {
-    display: none;
+    opacity: 0;
   }
 
   :root[data-theme="light"] .logo-light {
-    display: block;
+    opacity: 1;
   }
 
   :root[data-theme="dark"] .logo-dark {
-    display: block;
+    opacity: 1;
   }
 
   :root[data-theme="dark"] .logo-light {
-    display: none;
+    opacity: 0;
   }
 
   /* About */
