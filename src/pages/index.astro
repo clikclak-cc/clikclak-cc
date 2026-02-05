@@ -51,14 +51,52 @@ import Layout from '../layouts/Layout.astro';
 
       <!-- YouTube -->
       <section class="panel" data-panel="youtube">
-        <div class="panel-inner">
+        <div class="panel-inner youtube-panel">
           <h2 class="panel-title">YouTube</h2>
           <p class="panel-desc">
             Hands-on videos on infrastructure and coding, accompanied by the satisfying sounds of mechanical keyboards.
           </p>
-          <div class="youtube-placeholder">
-            <span class="play-icon">▶</span>
-            <span>Coming Soon</span>
+          <div class="video-carousel">
+            <div class="video-card">
+              <a href="https://youtube.com/watch?v=dummy1" target="_blank" rel="noopener noreferrer">
+                <div class="video-thumbnail">
+                  <span class="play-icon">▶</span>
+                </div>
+                <h3 class="video-title">Terraform入門 - AWSインフラをコードで管理</h3>
+              </a>
+            </div>
+            <div class="video-card">
+              <a href="https://youtube.com/watch?v=dummy2" target="_blank" rel="noopener noreferrer">
+                <div class="video-thumbnail">
+                  <span class="play-icon">▶</span>
+                </div>
+                <h3 class="video-title">GitHub Actions CI/CD ハンズオン</h3>
+              </a>
+            </div>
+            <div class="video-card">
+              <a href="https://youtube.com/watch?v=dummy3" target="_blank" rel="noopener noreferrer">
+                <div class="video-thumbnail">
+                  <span class="play-icon">▶</span>
+                </div>
+                <h3 class="video-title">キーボードASMR - Cherry MX Brown</h3>
+              </a>
+            </div>
+            <div class="video-card">
+              <a href="https://youtube.com/watch?v=dummy4" target="_blank" rel="noopener noreferrer">
+                <div class="video-thumbnail">
+                  <span class="play-icon">▶</span>
+                </div>
+                <h3 class="video-title">Docker + ECS デプロイ実践</h3>
+              </a>
+            </div>
+            <div class="video-card">
+              <a href="https://youtube.com/watch?v=dummy5" target="_blank" rel="noopener noreferrer">
+                <div class="video-thumbnail">
+                  <span class="play-icon">▶</span>
+                </div>
+                <h3 class="video-title">CloudFront + S3 静的ホスティング</h3>
+              </a>
+            </div>
           </div>
           <a href="#" class="btn" target="_blank" rel="noopener noreferrer">
             Visit Channel →
@@ -260,25 +298,95 @@ import Layout from '../layouts/Layout.astro';
   }
 
   /* YouTube */
-  .youtube-placeholder {
+  .youtube-panel {
+    max-width: 900px;
     width: 100%;
-    max-width: 400px;
-    aspect-ratio: 16/9;
-    margin: 0 auto 2rem;
-    background: var(--color-bg-secondary);
-    border: 2px dashed var(--color-text-muted);
-    border-radius: 12px;
+  }
+
+  .video-carousel {
     display: flex;
-    flex-direction: column;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 0.5rem 0 1.5rem;
+    margin-bottom: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Subtle scrollbar - appears on hover */
+  .video-carousel::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .video-carousel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .video-carousel::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 2px;
+    transition: background 0.3s ease;
+  }
+
+  .video-carousel:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .video-carousel:hover::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  .video-card {
+    flex-shrink: 0;
+    width: 240px;
+    scroll-snap-align: start;
+  }
+
+  .video-card a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .video-thumbnail {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #3d444b 0%, #292F36 100%);
+    border-radius: 8px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    color: var(--color-text-muted);
-    opacity: 0.6;
+    margin-bottom: 0.75rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .video-card:hover .video-thumbnail {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   }
 
   .play-icon {
     font-size: 2rem;
+    color: var(--color-accent-secondary);
+    opacity: 0.7;
+    transition: opacity 0.3s ease, color 0.3s ease;
+  }
+
+  .video-card:hover .play-icon {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+
+  .video-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    text-align: left;
+    transition: color 0.3s ease;
+  }
+
+  .video-card:hover .video-title {
     color: var(--color-accent-secondary);
   }
 
@@ -489,6 +597,15 @@ import Layout from '../layouts/Layout.astro';
 
     .logo-img {
       width: 100%;
+    }
+
+    .video-card {
+      width: 200px;
+    }
+
+    .video-carousel {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
     }
   }
 </style>
