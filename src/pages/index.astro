@@ -46,13 +46,13 @@ try {
 const keyboards = [
   {
     title: "RHYn47 - resin case -",
-    thumbnail: "https://d3toh8on7lf5va.cloudfront.net/rhyn47-abacus-mini.jpg",
-    url: "https://ryoo.cc/blog/2025-06-20_intro_rhyn47",
+    thumbnail: "https://d3toh8on7lf5va.cloudfront.net/yuzu.jpg",
+    url: "https://github.com/ryoo14/keyboards",
   },
   {
     title: "RHYn47 - transparent case -",
     thumbnail: "https://d3toh8on7lf5va.cloudfront.net/rhyn47-transparent.jpg",
-    url: "https://ryoo.cc/blog/2025-06-20_intro_rhyn47",
+    url: "https://github.com/ryoo14/keyboards",
   },
   {
     title: "RHYl47 - aluminium case -",
@@ -192,10 +192,10 @@ const keyboards = [
           <div class="keyboard-carousel">
             {keyboards.map((kb) => (
               <div class="keyboard-card">
+                <div class="keyboard-img" data-src={kb.thumbnail} data-alt={kb.title}>
+                  <img src={kb.thumbnail} alt={kb.title} loading="lazy" />
+                </div>
                 <a href={kb.url} target="_blank" rel="noopener noreferrer">
-                  <div class="keyboard-img">
-                    <img src={kb.thumbnail} alt={kb.title} loading="lazy" />
-                  </div>
                   <h3>{kb.title}</h3>
                 </a>
               </div>
@@ -203,6 +203,15 @@ const keyboards = [
           </div>
         </div>
       </section>
+
+      <!-- Image Modal -->
+      <div class="image-modal" id="imageModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+          <img src="" alt="" />
+          <p class="modal-title"></p>
+        </div>
+      </div>
 
       <!-- Links -->
       <section class="panel" data-panel="links">
@@ -683,6 +692,62 @@ const keyboards = [
     color: var(--color-accent-secondary);
   }
 
+  .keyboard-img {
+    cursor: pointer;
+  }
+
+  /* Image Modal */
+  .image-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .image-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 60vw;
+    max-height: 70vh;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+  }
+
+  .image-modal.open .modal-content {
+    transform: scale(1);
+  }
+
+  .modal-content img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-title {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
   /* Links */
   .links-grid {
     display: flex;
@@ -923,6 +988,42 @@ const keyboards = [
         navList?.classList.remove('open');
         hamburger?.setAttribute('aria-expanded', 'false');
       });
+    });
+
+    // Image modal
+    const modal = document.getElementById('imageModal');
+    const modalImg = modal?.querySelector('.modal-content img') as HTMLImageElement;
+    const modalTitle = modal?.querySelector('.modal-title') as HTMLParagraphElement;
+    const modalBackdrop = modal?.querySelector('.modal-backdrop');
+    const keyboardImages = document.querySelectorAll('.keyboard-img');
+
+    keyboardImages.forEach(img => {
+      img.addEventListener('click', (e) => {
+        e.preventDefault();
+        const src = img.getAttribute('data-src');
+        const alt = img.getAttribute('data-alt');
+        if (modalImg && src) {
+          modalImg.src = src;
+          modalImg.alt = alt || '';
+          if (modalTitle) {
+            modalTitle.textContent = alt || '';
+          }
+          modal?.classList.add('open');
+        }
+      });
+    });
+
+    const closeModal = () => {
+      modal?.classList.remove('open');
+    };
+
+    modalBackdrop?.addEventListener('click', closeModal);
+    modalImg?.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal?.classList.contains('open')) {
+        closeModal();
+      }
     });
   });
 </script>
