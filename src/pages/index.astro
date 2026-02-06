@@ -259,6 +259,9 @@ const keyboards = [
   .nav {
     padding: 2rem 3rem;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .nav-list {
@@ -512,7 +515,7 @@ const keyboards = [
 
   .video-card {
     flex-shrink: 0;
-    width: 240px;
+    width: 300px;
     scroll-snap-align: start;
     padding-left: 0.5rem;
   }
@@ -642,7 +645,7 @@ const keyboards = [
 
   .keyboard-card {
     flex-shrink: 0;
-    width: 240px;
+    width: 300px;
     scroll-snap-align: start;
     padding-left: 0.5rem;
   }
@@ -662,6 +665,7 @@ const keyboards = [
     border-radius: 8px;
     margin-bottom: 0.75rem;
     overflow: hidden;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   .keyboard-img img {
@@ -834,7 +838,17 @@ const keyboards = [
       padding: 1rem;
       display: flex;
       justify-content: flex-end;
+      gap: 1rem;
       position: relative;
+    }
+
+    .theme-toggle {
+      position: static;
+      transform: none;
+    }
+
+    .hamburger {
+      order: 1;
     }
 
     .hamburger {
@@ -890,7 +904,7 @@ const keyboards = [
     }
 
     .keyboard-card {
-      width: 200px;
+      width: 260px;
     }
 
     .keyboard-carousel {
@@ -908,7 +922,7 @@ const keyboards = [
     }
 
     .video-card {
-      width: 200px;
+      width: 260px;
     }
 
     .video-carousel {
