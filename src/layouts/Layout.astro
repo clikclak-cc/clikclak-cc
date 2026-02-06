@@ -101,6 +101,12 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
     opacity: 0;
   }
 
+  @media (max-width: 640px) {
+    body::before {
+      bottom: -15%;
+    }
+  }
+
   a {
     color: var(--color-accent);
     text-decoration: none;
