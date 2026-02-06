@@ -156,27 +156,29 @@ const keyboards = [
           <p class="panel-desc">
             Hands-on videos on infrastructure and coding, accompanied by the satisfying sounds of mechanical keyboards.
           </p>
-          <div class="video-carousel">
-            {videos.length > 0 ? (
-              videos.map((video) => (
-                <div class="video-card">
-                  <a href={video.url} target="_blank" rel="noopener noreferrer">
-                    <div class="video-thumbnail">
-                      <img src={video.thumbnail} alt={video.title} loading="lazy" />
-                      <span class="play-icon">▶</span>
-                    </div>
-                    <h3 class="video-title">{video.title}</h3>
-                  </a>
+          <div class="carousel-wrapper youtube-carousel-wrapper">
+            <div class="video-carousel">
+              {videos.length > 0 ? (
+                videos.map((video) => (
+                  <div class="video-card">
+                    <a href={video.url} target="_blank" rel="noopener noreferrer">
+                      <div class="video-thumbnail">
+                        <img src={video.thumbnail} alt={video.title} loading="lazy" />
+                        <span class="play-icon">▶</span>
+                      </div>
+                      <h3 class="video-title">{video.title}</h3>
+                    </a>
+                  </div>
+                ))
+              ) : (
+                <div class="video-card placeholder">
+                  <div class="video-thumbnail">
+                    <span class="play-icon">▶</span>
+                  </div>
+                  <h3 class="video-title">Coming Soon...</h3>
                 </div>
-              ))
-            ) : (
-              <div class="video-card placeholder">
-                <div class="video-thumbnail">
-                  <span class="play-icon">▶</span>
-                </div>
-                <h3 class="video-title">Coming Soon...</h3>
-              </div>
-            )}
+              )}
+            </div>
           </div>
           <a href={`https://www.youtube.com/@clikclak_cc`} class="btn" target="_blank" rel="noopener noreferrer">
             Visit Channel →
@@ -189,17 +191,19 @@ const keyboards = [
         <div class="panel-inner keyboards-panel">
           <h2 class="panel-title">Keyboards</h2>
           <p class="panel-desc">Custom designed & favorite mechanical keyboards</p>
-          <div class="keyboard-carousel">
-            {keyboards.map((kb) => (
-              <div class="keyboard-card">
-                <div class="keyboard-img" data-src={kb.thumbnail} data-alt={kb.title}>
-                  <img src={kb.thumbnail} alt={kb.title} loading="lazy" />
+          <div class="carousel-wrapper keyboards-carousel-wrapper">
+            <div class="keyboard-carousel">
+              {keyboards.map((kb) => (
+                <div class="keyboard-card">
+                  <div class="keyboard-img" data-src={kb.thumbnail} data-alt={kb.title}>
+                    <img src={kb.thumbnail} alt={kb.title} loading="lazy" />
+                  </div>
+                  <a href={kb.url} target="_blank" rel="noopener noreferrer">
+                    <h3>{kb.title}</h3>
+                  </a>
                 </div>
-                <a href={kb.url} target="_blank" rel="noopener noreferrer">
-                  <h3>{kb.title}</h3>
-                </a>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -491,38 +495,39 @@ const keyboards = [
     position: relative;
   }
 
-  .youtube-panel {
+  /* Carousel shadow wrapper */
+  .carousel-wrapper {
     position: relative;
   }
 
-  .youtube-panel::before,
-  .youtube-panel::after {
+  .carousel-wrapper::before,
+  .carousel-wrapper::after {
     content: '';
     position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 60px;
+    top: var(--shadow-top, 0);
+    height: var(--shadow-height, 100%);
+    width: 30px;
     pointer-events: none;
     z-index: 10;
     opacity: 0;
     transition: opacity 0.3s ease;
   }
 
-  .youtube-panel::before {
+  .carousel-wrapper::before {
     left: 0;
     background: linear-gradient(to right, var(--color-bg), transparent);
   }
 
-  .youtube-panel::after {
+  .carousel-wrapper::after {
     right: 0;
     background: linear-gradient(to left, var(--color-bg), transparent);
   }
 
-  .youtube-panel.show-left::before {
+  .carousel-wrapper.show-left::before {
     opacity: 1;
   }
 
-  .youtube-panel.show-right::after {
+  .carousel-wrapper.show-right::after {
     opacity: 1;
   }
 
@@ -658,40 +663,6 @@ const keyboards = [
     -webkit-overflow-scrolling: touch;
   }
 
-  .keyboards-panel {
-    position: relative;
-  }
-
-  .keyboards-panel::before,
-  .keyboards-panel::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 60px;
-    pointer-events: none;
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .keyboards-panel::before {
-    left: 0;
-    background: linear-gradient(to right, var(--color-bg), transparent);
-  }
-
-  .keyboards-panel::after {
-    right: 0;
-    background: linear-gradient(to left, var(--color-bg), transparent);
-  }
-
-  .keyboards-panel.show-left::before {
-    opacity: 1;
-  }
-
-  .keyboards-panel.show-right::after {
-    opacity: 1;
-  }
 
   .keyboard-carousel::-webkit-scrollbar {
     height: 4px;
@@ -1132,21 +1103,33 @@ const keyboards = [
     };
 
     const videoCarousel = document.querySelector('.video-carousel');
-    const youtubePanel = document.querySelector('.youtube-panel');
+    const youtubeWrapper = document.querySelector('.youtube-carousel-wrapper');
     const keyboardCarousel = document.querySelector('.keyboard-carousel');
-    const keyboardsPanel = document.querySelector('.keyboards-panel');
+    const keyboardsWrapper = document.querySelector('.keyboards-carousel-wrapper');
 
-    if (videoCarousel && youtubePanel) {
-      updateCarouselShadows(videoCarousel, youtubePanel);
+    const updateShadowPosition = (carousel: Element, wrapper: HTMLElement) => {
+      const firstImg = carousel.querySelector('.video-thumbnail, .keyboard-img');
+      if (firstImg) {
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const imgRect = firstImg.getBoundingClientRect();
+        wrapper.style.setProperty('--shadow-top', `${imgRect.top - wrapperRect.top}px`);
+        wrapper.style.setProperty('--shadow-height', `${imgRect.height}px`);
+      }
+    };
+
+    if (videoCarousel && youtubeWrapper) {
+      updateShadowPosition(videoCarousel, youtubeWrapper as HTMLElement);
+      updateCarouselShadows(videoCarousel, youtubeWrapper);
       videoCarousel.addEventListener('scroll', () => {
-        updateCarouselShadows(videoCarousel, youtubePanel);
+        updateCarouselShadows(videoCarousel, youtubeWrapper);
       });
     }
 
-    if (keyboardCarousel && keyboardsPanel) {
-      updateCarouselShadows(keyboardCarousel, keyboardsPanel);
+    if (keyboardCarousel && keyboardsWrapper) {
+      updateShadowPosition(keyboardCarousel, keyboardsWrapper as HTMLElement);
+      updateCarouselShadows(keyboardCarousel, keyboardsWrapper);
       keyboardCarousel.addEventListener('scroll', () => {
-        updateCarouselShadows(keyboardCarousel, keyboardsPanel);
+        updateCarouselShadows(keyboardCarousel, keyboardsWrapper);
       });
     }
   });
