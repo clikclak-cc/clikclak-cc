@@ -488,6 +488,42 @@ const keyboards = [
     padding: 0.5rem 1rem 1.5rem 1rem;
     margin-bottom: 1.5rem;
     -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+
+  .youtube-panel {
+    position: relative;
+  }
+
+  .youtube-panel::before,
+  .youtube-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .youtube-panel::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-bg), transparent);
+  }
+
+  .youtube-panel::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-bg), transparent);
+  }
+
+  .youtube-panel.show-left::before {
+    opacity: 1;
+  }
+
+  .youtube-panel.show-right::after {
+    opacity: 1;
   }
 
   /* Subtle scrollbar - appears on hover */
@@ -620,6 +656,41 @@ const keyboards = [
     scroll-behavior: smooth;
     padding: 0.5rem 1rem 1.5rem 1rem;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .keyboards-panel {
+    position: relative;
+  }
+
+  .keyboards-panel::before,
+  .keyboards-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .keyboards-panel::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-bg), transparent);
+  }
+
+  .keyboards-panel::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-bg), transparent);
+  }
+
+  .keyboards-panel.show-left::before {
+    opacity: 1;
+  }
+
+  .keyboards-panel.show-right::after {
+    opacity: 1;
   }
 
   .keyboard-carousel::-webkit-scrollbar {
@@ -1039,5 +1110,44 @@ const keyboards = [
         closeModal();
       }
     });
+
+    // Carousel scroll shadows
+    const updateCarouselShadows = (carousel: Element, panel: Element) => {
+      const scrollLeft = carousel.scrollLeft;
+      const scrollWidth = carousel.scrollWidth;
+      const clientWidth = carousel.clientWidth;
+      const threshold = 20;
+
+      if (scrollLeft > threshold) {
+        panel.classList.add('show-left');
+      } else {
+        panel.classList.remove('show-left');
+      }
+
+      if (scrollLeft < scrollWidth - clientWidth - threshold) {
+        panel.classList.add('show-right');
+      } else {
+        panel.classList.remove('show-right');
+      }
+    };
+
+    const videoCarousel = document.querySelector('.video-carousel');
+    const youtubePanel = document.querySelector('.youtube-panel');
+    const keyboardCarousel = document.querySelector('.keyboard-carousel');
+    const keyboardsPanel = document.querySelector('.keyboards-panel');
+
+    if (videoCarousel && youtubePanel) {
+      updateCarouselShadows(videoCarousel, youtubePanel);
+      videoCarousel.addEventListener('scroll', () => {
+        updateCarouselShadows(videoCarousel, youtubePanel);
+      });
+    }
+
+    if (keyboardCarousel && keyboardsPanel) {
+      updateCarouselShadows(keyboardCarousel, keyboardsPanel);
+      keyboardCarousel.addEventListener('scroll', () => {
+        updateCarouselShadows(keyboardCarousel, keyboardsPanel);
+      });
+    }
   });
 </script>
