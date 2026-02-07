@@ -44,9 +44,6 @@ const tabs = [
     const navItems = document.querySelectorAll('.nav-item');
     const panels = document.querySelectorAll('.panel');
 
-    // Hide background on logo panel
-    document.body.classList.add('hide-bg');
-
     navItems.forEach(item => {
       item.addEventListener('click', () => {
         const tab = item.getAttribute('data-tab');
