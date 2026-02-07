@@ -5,7 +5,6 @@ import { keyboards } from '../data/keyboards';
 import Footer from '../components/Footer.astro';
 import LogoPanel from '../components/LogoPanel.astro';
 import AboutPanel from '../components/AboutPanel.astro';
-import LinksPanel from '../components/LinksPanel.astro';
 import YouTubePanel from '../components/YouTubePanel.astro';
 import KeyboardsPanel from '../components/KeyboardsPanel.astro';
 import Navigation from '../components/Navigation.astro';
@@ -18,7 +17,6 @@ const tabs = [
   { id: 'about', label: 'About' },
   { id: 'youtube', label: 'YouTube' },
   { id: 'keyboards', label: 'Keyboards' },
-  { id: 'links', label: 'Links' },
 ];
 ---
 
@@ -35,7 +33,6 @@ const tabs = [
       <KeyboardsPanel keyboards={keyboards} />
       <ImageModal />
 
-      <LinksPanel />
     </main>
 
     <Footer />

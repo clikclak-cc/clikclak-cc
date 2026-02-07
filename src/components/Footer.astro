@@ -1,4 +1,18 @@
 <footer class="footer">
+  <div class="footer-links">
+    <a href="https://youtube.com/@clikclak_cc" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+      <i class="fa-brands fa-youtube"></i>
+    </a>
+    <a href="https://x.com/clikclak_cc" target="_blank" rel="noopener noreferrer" aria-label="X">
+      <i class="fa-brands fa-x-twitter"></i>
+    </a>
+    <a href="https://bsky.app/profile/clikclak.cc" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
+      <i class="fa-brands fa-bluesky"></i>
+    </a>
+    <a href="https://github.com/clikclak-cc" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+      <i class="fa-brands fa-github"></i>
+    </a>
+  </div>
   <span>&copy; 2025 clikclak</span>
 </footer>
 
@@ -8,5 +22,22 @@
     text-align: center;
     color: var(--color-text-muted);
     font-size: 0.875rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-links a {
+    color: var(--color-text);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--color-accent-secondary);
   }
 </style>
