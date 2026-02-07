@@ -39,80 +39,10 @@ const tabs = [
   </div>
 </Layout>
 
-<style is:global>
-  .app {
-    height: 100vh;
-    width: 100vw;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    overflow: hidden;
-  }
-
-  .content {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .panel {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 4rem;
-    opacity: 0;
-    transform: translateY(20px);
-    pointer-events: none;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-
-  .panel.active {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .panel-inner {
-    max-width: 650px;
-    text-align: center;
-  }
-
-  .panel-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--color-accent);
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
-  }
-
-  .panel-desc {
-    color: var(--color-text-muted);
-    margin-bottom: 2rem;
-  }
-
-  .panel-inner p {
-    margin-bottom: 1.25rem;
-    line-height: 1.9;
-    font-size: 1.05rem;
-  }
-
-  @media (max-width: 640px) {
-    .panel {
-      padding: 1.5rem;
-    }
-
-    .panel-title {
-      font-size: 2rem;
-    }
-  }
-</style>
-
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const navItems = document.querySelectorAll('.nav-item');
     const panels = document.querySelectorAll('.panel');
-    const hamburger = document.querySelector('.hamburger');
-    const navList = document.querySelector('.nav-list');
 
     // Hide background on logo panel
     document.body.classList.add('hide-bg');
@@ -140,11 +70,6 @@ const tabs = [
         } else {
           document.body.classList.remove('hide-bg');
         }
-
-        // Close mobile menu after selection
-        hamburger?.classList.remove('open');
-        navList?.classList.remove('open');
-        hamburger?.setAttribute('aria-expanded', 'false');
       });
     });
   });

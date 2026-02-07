@@ -39,7 +39,7 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
     --font-main: 'Nunito', 'Arial Rounded MT Bold', 'Arial', sans-serif;
   }
 
-  /* Light mode - system preference */
+  /* Light mode - system preference or manual toggle */
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
       --color-bg: #fffcf9;
@@ -49,19 +49,11 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
     }
   }
 
-  /* Manual theme overrides */
   :root[data-theme="light"] {
     --color-bg: #fffcf9;
     --color-bg-secondary: #F6F4F3;
     --color-text: #292F36;
     --color-text-muted: #323a42;
-  }
-
-  :root[data-theme="dark"] {
-    --color-bg: #292F36;
-    --color-bg-secondary: #323a42;
-    --color-text: #fffcf9;
-    --color-text-muted: #F6F4F3;
   }
 
   * {
@@ -83,7 +75,7 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
   body::before {
     content: '';
     position: fixed;
-    bottom: -20%;
+    bottom: -18%;
     right: -3%;
     width: 40%;
     height: 80%;
@@ -91,7 +83,7 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center right;
-    opacity: 0.06;
+    opacity: 0.2;
     pointer-events: none;
     z-index: 0;
     transition: opacity 0.5s ease;
@@ -120,5 +112,122 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
   ::selection {
     background: var(--color-accent);
     color: var(--color-bg);
+  }
+
+  /* App layout */
+  .app {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow: hidden;
+  }
+
+  .content {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Panel system */
+  .panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 4rem;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .panel.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .panel-inner {
+    max-width: 650px;
+    text-align: center;
+  }
+
+  .panel-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .panel-desc {
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .panel-inner p {
+    margin-bottom: 1.25rem;
+    line-height: 1.9;
+    font-size: 1.05rem;
+  }
+
+  /* Carousel card (shared between YouTube & Keyboards) */
+  .carousel-card {
+    flex-shrink: 0;
+    width: 300px;
+    scroll-snap-align: start;
+    padding-left: 0.5rem;
+  }
+
+  .carousel-card a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .carousel-card a:hover {
+    opacity: 1;
+  }
+
+  .carousel-card-img {
+    background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg) 100%);
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .carousel-card:hover .carousel-card-img {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .carousel-card-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    text-align: left;
+    transition: color 0.3s ease;
+  }
+
+  .carousel-card:hover .carousel-card-title {
+    color: var(--color-accent-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .panel {
+      padding: 1.5rem;
+    }
+
+    .panel-title {
+      font-size: 2rem;
+    }
+
+    .carousel-card {
+      width: 260px;
+    }
   }
 </style>

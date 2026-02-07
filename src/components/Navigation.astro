@@ -185,5 +185,14 @@ const { tabs } = Astro.props;
         hamburger.classList.contains('open').toString()
       );
     });
+
+    // Close mobile menu when a nav item is clicked
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        hamburger?.classList.remove('open');
+        navList?.classList.remove('open');
+        hamburger?.setAttribute('aria-expanded', 'false');
+      });
+    });
   });
 </script>

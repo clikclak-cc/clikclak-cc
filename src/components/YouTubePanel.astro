@@ -18,22 +18,22 @@ const { videos } = Astro.props;
     <Carousel wrapperClass="youtube-carousel-wrapper" carouselClass="video-carousel">
       {videos.length > 0 ? (
         videos.map((video) => (
-          <div class="video-card">
+          <div class="carousel-card video-card">
             <a href={video.url} target="_blank" rel="noopener noreferrer">
-              <div class="video-thumbnail">
+              <div class="carousel-card-img video-thumbnail">
                 <img src={video.thumbnail} alt={video.title} loading="lazy" />
                 <span class="play-icon">▶</span>
               </div>
-              <h3 class="video-title">{video.title}</h3>
+              <h3 class="carousel-card-title">{video.title}</h3>
             </a>
           </div>
         ))
       ) : (
-        <div class="video-card placeholder">
-          <div class="video-thumbnail">
+        <div class="carousel-card video-card placeholder">
+          <div class="carousel-card-img video-thumbnail">
             <span class="play-icon">▶</span>
           </div>
-          <h3 class="video-title">Coming Soon...</h3>
+          <h3 class="carousel-card-title">Coming Soon...</h3>
         </div>
       )}
     </Carousel>
@@ -53,35 +53,12 @@ const { videos } = Astro.props;
     margin-bottom: 1.5rem;
   }
 
-  .video-card {
-    flex-shrink: 0;
-    width: 300px;
-    scroll-snap-align: start;
-    padding-left: 0.5rem;
-  }
-
-  .video-card a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .video-card a:hover {
-    opacity: 1;
-  }
-
   .video-thumbnail {
     aspect-ratio: 16/9;
-    background: linear-gradient(135deg, #3d444b 0%, #292F36 100%);
-    border-radius: 8px;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 0.75rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
-    overflow: hidden;
   }
 
   .video-thumbnail img {
@@ -90,11 +67,6 @@ const { videos } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  .video-card:hover .video-thumbnail {
-    transform: scale(1.03);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   }
 
   .play-icon {
@@ -116,19 +88,6 @@ const { videos } = Astro.props;
     opacity: 0.7;
   }
 
-  .video-title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-text);
-    line-height: 1.4;
-    text-align: left;
-    transition: color 0.3s ease;
-  }
-
-  .video-card:hover .video-title {
-    color: var(--color-accent-secondary);
-  }
-
   .btn {
     display: inline-block;
     padding: 0.875rem 2.5rem;
@@ -146,9 +105,4 @@ const { videos } = Astro.props;
     opacity: 1;
   }
 
-  @media (max-width: 640px) {
-    .video-card {
-      width: 260px;
-    }
-  }
 </style>
