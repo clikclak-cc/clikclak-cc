@@ -46,20 +46,18 @@ const { keyboards } = Astro.props;
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const keyboardImages = document.querySelectorAll('.keyboard-img');
+  const keyboardImages = document.querySelectorAll('.keyboard-img');
 
-    keyboardImages.forEach(img => {
-      img.addEventListener('click', (e) => {
-        e.preventDefault();
-        const src = img.getAttribute('data-src');
-        const alt = img.getAttribute('data-alt');
-        if (src) {
-          document.dispatchEvent(new CustomEvent('open-image-modal', {
-            detail: { src, alt: alt || '' }
-          }));
-        }
-      });
+  keyboardImages.forEach(img => {
+    img.addEventListener('click', (e) => {
+      e.preventDefault();
+      const src = img.getAttribute('data-src');
+      const alt = img.getAttribute('data-alt');
+      if (src) {
+        document.dispatchEvent(new CustomEvent('open-image-modal', {
+          detail: { src, alt: alt || '' }
+        }));
+      }
     });
   });
 </script>

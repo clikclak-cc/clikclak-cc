@@ -90,45 +90,43 @@ const { class: className = '', wrapperClass = '', carouselClass = '' } = Astro.p
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const wrappers = document.querySelectorAll('.carousel-wrapper');
+  const wrappers = document.querySelectorAll('.carousel-wrapper');
 
-    wrappers.forEach(wrapper => {
-      const carousel = wrapper.querySelector('.carousel');
-      if (!carousel) return;
+  wrappers.forEach(wrapper => {
+    const carousel = wrapper.querySelector('.carousel');
+    if (!carousel) return;
 
-      const updateShadows = () => {
-        const scrollLeft = carousel.scrollLeft;
-        const scrollWidth = carousel.scrollWidth;
-        const clientWidth = carousel.clientWidth;
-        const threshold = 20;
+    const updateShadows = () => {
+      const scrollLeft = carousel.scrollLeft;
+      const scrollWidth = carousel.scrollWidth;
+      const clientWidth = carousel.clientWidth;
+      const threshold = 20;
 
-        if (scrollLeft > threshold) {
-          wrapper.classList.add('show-left');
-        } else {
-          wrapper.classList.remove('show-left');
-        }
+      if (scrollLeft > threshold) {
+        wrapper.classList.add('show-left');
+      } else {
+        wrapper.classList.remove('show-left');
+      }
 
-        if (scrollLeft < scrollWidth - clientWidth - threshold) {
-          wrapper.classList.add('show-right');
-        } else {
-          wrapper.classList.remove('show-right');
-        }
-      };
+      if (scrollLeft < scrollWidth - clientWidth - threshold) {
+        wrapper.classList.add('show-right');
+      } else {
+        wrapper.classList.remove('show-right');
+      }
+    };
 
-      const updateShadowPosition = () => {
-        const firstImg = carousel.querySelector('.video-thumbnail, .keyboard-img');
-        if (firstImg) {
-          const wrapperRect = wrapper.getBoundingClientRect();
-          const imgRect = firstImg.getBoundingClientRect();
-          (wrapper as HTMLElement).style.setProperty('--shadow-top', `${imgRect.top - wrapperRect.top}px`);
-          (wrapper as HTMLElement).style.setProperty('--shadow-height', `${imgRect.height}px`);
-        }
-      };
+    const updateShadowPosition = () => {
+      const firstImg = carousel.querySelector('.video-thumbnail, .keyboard-img');
+      if (firstImg) {
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const imgRect = firstImg.getBoundingClientRect();
+        (wrapper as HTMLElement).style.setProperty('--shadow-top', `${imgRect.top - wrapperRect.top}px`);
+        (wrapper as HTMLElement).style.setProperty('--shadow-height', `${imgRect.height}px`);
+      }
+    };
 
-      updateShadowPosition();
-      updateShadows();
-      carousel.addEventListener('scroll', updateShadows);
-    });
+    updateShadowPosition();
+    updateShadows();
+    carousel.addEventListener('scroll', updateShadows);
   });
 </script>

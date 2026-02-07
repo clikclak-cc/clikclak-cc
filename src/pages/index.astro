@@ -38,36 +38,3 @@ const tabs = [
     <Footer />
   </div>
 </Layout>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const navItems = document.querySelectorAll('.nav-item');
-    const panels = document.querySelectorAll('.panel');
-
-    navItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const tab = item.getAttribute('data-tab');
-
-        // Update nav
-        navItems.forEach(nav => nav.classList.remove('active'));
-        item.classList.add('active');
-
-        // Update panels with fade
-        panels.forEach(panel => {
-          if (panel.getAttribute('data-panel') === tab) {
-            panel.classList.add('active');
-          } else {
-            panel.classList.remove('active');
-          }
-        });
-
-        // Toggle background visibility (hide on logo panel)
-        if (tab === 'logo') {
-          document.body.classList.add('hide-bg');
-        } else {
-          document.body.classList.remove('hide-bg');
-        }
-      });
-    });
-  });
-</script>

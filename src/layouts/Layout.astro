@@ -22,6 +22,14 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
     <link rel="preload" href="/logo.svg" as="image" />
     <link rel="preload" href="/logo-light.svg" as="image" />
     <title>{title}</title>
+    <script is:inline>
+      (function() {
+        var saved = localStorage.getItem('theme');
+        if (saved) {
+          document.documentElement.setAttribute('data-theme', saved);
+        }
+      })();
+    </script>
   </head>
   <body class="hide-bg">
     <slot />

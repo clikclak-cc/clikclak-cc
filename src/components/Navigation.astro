@@ -174,25 +174,46 @@ const { tabs } = Astro.props;
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.querySelector('.hamburger');
-    const navList = document.querySelector('.nav-list');
+  // Hamburger menu
+  const hamburger = document.querySelector('.hamburger');
+  const navList = document.querySelector('.nav-list');
 
-    hamburger?.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      navList?.classList.toggle('open');
-      hamburger.setAttribute('aria-expanded',
-        hamburger.classList.contains('open').toString()
-      );
-    });
+  hamburger?.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navList?.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded',
+      hamburger.classList.contains('open').toString()
+    );
+  });
 
-    // Close mobile menu when a nav item is clicked
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.addEventListener('click', () => {
-        hamburger?.classList.remove('open');
-        navList?.classList.remove('open');
-        hamburger?.setAttribute('aria-expanded', 'false');
+  // Tab navigation (統合: パネル切り替え + 背景トグル + モバイルメニュー閉じ)
+  const navItems = document.querySelectorAll('.nav-item');
+  const panels = document.querySelectorAll('.panel');
+
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const tab = item.getAttribute('data-tab');
+
+      navItems.forEach(nav => nav.classList.remove('active'));
+      item.classList.add('active');
+
+      panels.forEach(panel => {
+        if (panel.getAttribute('data-panel') === tab) {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
       });
+
+      if (tab === 'logo') {
+        document.body.classList.add('hide-bg');
+      } else {
+        document.body.classList.remove('hide-bg');
+      }
+
+      hamburger?.classList.remove('open');
+      navList?.classList.remove('open');
+      hamburger?.setAttribute('aria-expanded', 'false');
     });
   });
 </script>

@@ -54,27 +54,16 @@
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const themeToggle = document.querySelector('.theme-toggle');
+  const themeToggle = document.querySelector('.theme-toggle');
 
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
+  themeToggle?.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    themeToggle?.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const newTheme = (currentTheme === 'dark' || (!currentTheme && prefersDark))
+      ? 'light' : 'dark';
 
-      let newTheme;
-      if (currentTheme === 'dark' || (!currentTheme && prefersDark)) {
-        newTheme = 'light';
-      } else {
-        newTheme = 'dark';
-      }
-
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-    });
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
   });
 </script>
