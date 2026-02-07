@@ -1,0 +1,95 @@
+<div class="image-modal" id="imageModal">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content">
+    <img src="" alt="" />
+    <p class="modal-title"></p>
+  </div>
+</div>
+
+<style>
+  .image-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  :global(.image-modal.open) {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 60vw;
+    max-height: 70vh;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+  }
+
+  :global(.image-modal.open) .modal-content {
+    transform: scale(1);
+  }
+
+  .modal-content img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-title {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('imageModal');
+    const modalImg = modal?.querySelector('.modal-content img') as HTMLImageElement;
+    const modalTitle = modal?.querySelector('.modal-title') as HTMLParagraphElement;
+    const modalBackdrop = modal?.querySelector('.modal-backdrop');
+
+    const closeModal = () => {
+      modal?.classList.remove('open');
+    };
+
+    // Listen for CustomEvent from KeyboardsPanel
+    document.addEventListener('open-image-modal', ((e: CustomEvent) => {
+      const { src, alt } = e.detail;
+      if (modalImg && src) {
+        modalImg.src = src;
+        modalImg.alt = alt || '';
+        if (modalTitle) {
+          modalTitle.textContent = alt || '';
+        }
+        modal?.classList.add('open');
+      }
+    }) as EventListener);
+
+    modalBackdrop?.addEventListener('click', closeModal);
+    modalImg?.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal?.classList.contains('open')) {
+        closeModal();
+      }
+    });
+  });
+</script>

@@ -1,0 +1,80 @@
+<button class="theme-toggle" aria-label="Toggle theme">
+  <i class="fa-solid fa-sun"></i>
+  <i class="fa-solid fa-moon"></i>
+</button>
+
+<style>
+  .theme-toggle {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .theme-toggle:hover {
+    color: var(--color-accent);
+  }
+
+  .theme-toggle .fa-sun {
+    display: none;
+  }
+
+  :global(:root[data-theme="light"]) .theme-toggle .fa-sun,
+  :global(:root:not([data-theme="dark"])) .theme-toggle .fa-sun {
+    display: inline;
+  }
+
+  :global(:root[data-theme="light"]) .theme-toggle .fa-moon,
+  :global(:root:not([data-theme="dark"])) .theme-toggle .fa-moon {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .theme-toggle .fa-sun {
+      display: none;
+    }
+    :global(:root:not([data-theme="light"])) .theme-toggle .fa-moon {
+      display: inline;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .theme-toggle {
+      position: static;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.querySelector('.theme-toggle');
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+
+    themeToggle?.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      let newTheme;
+      if (currentTheme === 'dark' || (!currentTheme && prefersDark)) {
+        newTheme = 'light';
+      } else {
+        newTheme = 'dark';
+      }
+
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+  });
+</script>

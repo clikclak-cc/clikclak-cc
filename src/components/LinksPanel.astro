@@ -1,0 +1,71 @@
+<section class="panel" data-panel="links">
+  <div class="panel-inner">
+    <h2 class="panel-title">Links</h2>
+    <div class="links-grid">
+      <a href="https://youtube.com/@clikclak_cc" class="link-card" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-youtube link-icon"></i>
+        <span class="link-name">YouTube</span>
+      </a>
+      <a href="https://x.com/clikclak_cc" class="link-card" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-x-twitter link-icon"></i>
+        <span class="link-name">X</span>
+      </a>
+      <a href="https://bsky.app/profile/clikclak.cc" class="link-card" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-bluesky link-icon"></i>
+        <span class="link-name">Bluesky</span>
+      </a>
+      <a href="https://github.com/clikclak-cc" class="link-card" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-github link-icon"></i>
+        <span class="link-name">GitHub</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .links-grid {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 2rem;
+    background: var(--color-bg-secondary);
+    border-radius: 12px;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+    min-width: 160px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .link-card:hover {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+
+  .link-card:hover .link-icon {
+    color: var(--color-accent);
+  }
+
+  .link-icon {
+    font-size: 1.5rem;
+    color: var(--color-accent-secondary);
+    transition: color 0.3s ease;
+  }
+
+  .link-name {
+    font-weight: 700;
+  }
+
+  @media (max-width: 640px) {
+    .links-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

@@ -1,0 +1,189 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Tab {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  tabs: Tab[];
+}
+
+const { tabs } = Astro.props;
+---
+
+<nav class="nav">
+  <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
+  <ul class="nav-list">
+    {tabs.map((tab, i) => (
+      <li><button class={`nav-item${i === 0 ? ' active' : ''}`} data-tab={tab.id}>{tab.label}</button></li>
+    ))}
+  </ul>
+  <ThemeToggle />
+</nav>
+
+<style>
+  .nav {
+    padding: 2rem 3rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .nav-item {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transition: width 0.3s ease, background 0s 0.3s;
+  }
+
+  .nav-item:hover {
+    color: var(--color-accent-secondary);
+  }
+
+  .nav-item.active {
+    color: var(--color-accent);
+  }
+
+  .nav-item:hover::after {
+    width: 100%;
+    background: var(--color-accent-secondary);
+    transition: width 0.3s ease, background 0s;
+  }
+
+  .nav-item.active::after {
+    width: 100%;
+    background: var(--color-accent);
+  }
+
+  /* Hamburger button - hidden on desktop */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 100;
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-text);
+    margin: 5px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  :global(.hamburger.open) .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  :global(.hamburger.open) .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  :global(.hamburger.open) .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  @media (max-width: 640px) {
+    .nav {
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .hamburger {
+      order: 1;
+      display: block;
+    }
+
+    .nav-list {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--color-bg);
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 1rem 0 0.5rem;
+      transform: translateY(-100%);
+      z-index: 50;
+    }
+
+    :global(.nav-list.open) {
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .nav-list li {
+      width: 100%;
+      text-align: center;
+    }
+
+    .nav-item {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .nav-item::after {
+      display: none;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: var(--color-bg);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.querySelector('.hamburger');
+    const navList = document.querySelector('.nav-list');
+
+    hamburger?.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navList?.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded',
+        hamburger.classList.contains('open').toString()
+      );
+    });
+  });
+</script>

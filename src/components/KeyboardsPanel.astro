@@ -1,0 +1,112 @@
+---
+import Carousel from './Carousel.astro';
+import type { Keyboard } from '../data/keyboards';
+
+interface Props {
+  keyboards: Keyboard[];
+}
+
+const { keyboards } = Astro.props;
+---
+
+<section class="panel" data-panel="keyboards">
+  <div class="panel-inner keyboards-panel">
+    <h2 class="panel-title">Keyboards</h2>
+    <p class="panel-desc">Custom designed & favorite mechanical keyboards</p>
+    <Carousel wrapperClass="keyboards-carousel-wrapper" carouselClass="keyboard-carousel">
+      {keyboards.map((kb) => (
+        <div class="keyboard-card">
+          <div class="keyboard-img" data-src={kb.thumbnail} data-alt={kb.title}>
+            <img src={kb.thumbnail} alt={kb.title} loading="lazy" />
+          </div>
+          <a href={kb.url} target="_blank" rel="noopener noreferrer">
+            <h3>{kb.title}</h3>
+          </a>
+        </div>
+      ))}
+    </Carousel>
+  </div>
+</section>
+
+<style>
+  .keyboards-panel {
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .keyboard-card {
+    flex-shrink: 0;
+    width: 300px;
+    scroll-snap-align: start;
+    padding-left: 0.5rem;
+  }
+
+  .keyboard-card a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .keyboard-card a:hover {
+    opacity: 1;
+  }
+
+  .keyboard-img {
+    background: linear-gradient(135deg, #3d444b 0%, #292F36 100%);
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .keyboard-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .keyboard-card:hover .keyboard-img {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .keyboard-card h3 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    text-align: left;
+    transition: color 0.3s ease;
+  }
+
+  .keyboard-card:hover h3 {
+    color: var(--color-accent-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .keyboard-card {
+      width: 260px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const keyboardImages = document.querySelectorAll('.keyboard-img');
+
+    keyboardImages.forEach(img => {
+      img.addEventListener('click', (e) => {
+        e.preventDefault();
+        const src = img.getAttribute('data-src');
+        const alt = img.getAttribute('data-alt');
+        if (src) {
+          document.dispatchEvent(new CustomEvent('open-image-modal', {
+            detail: { src, alt: alt || '' }
+          }));
+        }
+      });
+    });
+  });
+</script>

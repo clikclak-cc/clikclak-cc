@@ -1,0 +1,134 @@
+---
+interface Props {
+  class?: string;
+  wrapperClass?: string;
+  carouselClass?: string;
+}
+
+const { class: className = '', wrapperClass = '', carouselClass = '' } = Astro.props;
+---
+
+<div class={`carousel-wrapper ${wrapperClass} ${className}`.trim()}>
+  <div class={`carousel ${carouselClass}`.trim()}>
+    <slot />
+  </div>
+</div>
+
+<style>
+  .carousel-wrapper {
+    position: relative;
+  }
+
+  .carousel-wrapper::before,
+  .carousel-wrapper::after {
+    content: '';
+    position: absolute;
+    top: var(--shadow-top, 0);
+    height: var(--shadow-height, 100%);
+    width: 30px;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .carousel-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-bg), transparent);
+  }
+
+  .carousel-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-bg), transparent);
+  }
+
+  :global(.carousel-wrapper.show-left)::before {
+    opacity: 1;
+  }
+
+  :global(.carousel-wrapper.show-right)::after {
+    opacity: 1;
+  }
+
+  .carousel {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 0.5rem 1rem 1.5rem 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .carousel::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .carousel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .carousel::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 2px;
+  }
+
+  .carousel:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .carousel:hover::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  @media (max-width: 640px) {
+    .carousel {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrappers = document.querySelectorAll('.carousel-wrapper');
+
+    wrappers.forEach(wrapper => {
+      const carousel = wrapper.querySelector('.carousel');
+      if (!carousel) return;
+
+      const updateShadows = () => {
+        const scrollLeft = carousel.scrollLeft;
+        const scrollWidth = carousel.scrollWidth;
+        const clientWidth = carousel.clientWidth;
+        const threshold = 20;
+
+        if (scrollLeft > threshold) {
+          wrapper.classList.add('show-left');
+        } else {
+          wrapper.classList.remove('show-left');
+        }
+
+        if (scrollLeft < scrollWidth - clientWidth - threshold) {
+          wrapper.classList.add('show-right');
+        } else {
+          wrapper.classList.remove('show-right');
+        }
+      };
+
+      const updateShadowPosition = () => {
+        const firstImg = carousel.querySelector('.video-thumbnail, .keyboard-img');
+        if (firstImg) {
+          const wrapperRect = wrapper.getBoundingClientRect();
+          const imgRect = firstImg.getBoundingClientRect();
+          (wrapper as HTMLElement).style.setProperty('--shadow-top', `${imgRect.top - wrapperRect.top}px`);
+          (wrapper as HTMLElement).style.setProperty('--shadow-height', `${imgRect.height}px`);
+        }
+      };
+
+      updateShadowPosition();
+      updateShadows();
+      carousel.addEventListener('scroll', updateShadows);
+    });
+  });
+</script>
