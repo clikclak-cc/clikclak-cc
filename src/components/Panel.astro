@@ -10,7 +10,7 @@ interface Props {
 const { id, active = false, class: className, innerClass, noInner = false } = Astro.props;
 ---
 
-<section class:list={['panel', { active }, className]} data-panel={id}>
+<section class:list={['panel', { active }, className]} data-panel={id} aria-hidden={active ? 'false' : 'true'}>
   {noInner ? (
     <slot />
   ) : (
@@ -31,13 +31,15 @@ const { id, active = false, class: className, innerClass, noInner = false } = As
     opacity: 0;
     transform: translateY(20px);
     pointer-events: none;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    visibility: hidden;
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
   }
 
   .panel.active {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
+    visibility: visible;
   }
 
   .panel-inner {

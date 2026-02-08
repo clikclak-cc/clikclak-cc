@@ -128,5 +128,14 @@ const { class: className = '', wrapperClass = '', carouselClass = '' } = Astro.p
     updateShadowPosition();
     updateShadows();
     carousel.addEventListener('scroll', updateShadows);
+
+    let resizeTimer: number;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        updateShadowPosition();
+        updateShadows();
+      }, 150);
+    });
   });
 </script>

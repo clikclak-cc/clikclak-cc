@@ -200,8 +200,10 @@ const { tabs } = Astro.props;
       panels.forEach(panel => {
         if (panel.getAttribute('data-panel') === tab) {
           panel.classList.add('active');
+          panel.setAttribute('aria-hidden', 'false');
         } else {
           panel.classList.remove('active');
+          panel.setAttribute('aria-hidden', 'true');
         }
       });
 
