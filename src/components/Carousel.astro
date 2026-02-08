@@ -8,8 +8,8 @@ interface Props {
 const { class: className = '', wrapperClass = '', carouselClass = '' } = Astro.props;
 ---
 
-<div class={`carousel-wrapper ${wrapperClass} ${className}`.trim()}>
-  <div class={`carousel ${carouselClass}`.trim()}>
+<div class:list={['carousel-wrapper', wrapperClass, className]}>
+  <div class:list={['carousel', carouselClass]}>
     <slot />
   </div>
 </div>

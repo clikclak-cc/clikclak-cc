@@ -1,23 +1,25 @@
-<section class="panel" data-panel="about">
-  <div class="panel-inner">
-    <h2 class="panel-title">About</h2>
-    <p>
-      <strong>clikclak</strong> is a content brand that combines hands-on programming,
-      infrastructure, and IaC tutorials with mechanical keyboard ASMR experiences.
-    </p>
-    <p>
-      The sound of typing code, the rhythm of keystrokes.
-      Learn technology and create while enjoying the satisfying sounds of mechanical keyboards.
-    </p>
-    <ul class="about-list">
-      <li><span class="bullet">▸</span> Infrastructure as Code</li>
-      <li><span class="bullet teal">▸</span> Cloud Architecture (AWS)</li>
-      <li><span class="bullet">▸</span> Hands-on Tutorials</li>
-      <li><span class="bullet teal">▸</span> Mechanical Keyboard Design</li>
-      <li><span class="bullet">▸</span> Typing ASMR</li>
-    </ul>
-  </div>
-</section>
+---
+import Panel from './Panel.astro';
+---
+
+<Panel id="about">
+  <h2>About</h2>
+  <p>
+    <strong>clikclak</strong> is a content brand that combines hands-on programming,
+    infrastructure, and IaC tutorials with mechanical keyboard ASMR experiences.
+  </p>
+  <p>
+    The sound of typing code, the rhythm of keystrokes.
+    Learn technology and create while enjoying the satisfying sounds of mechanical keyboards.
+  </p>
+  <ul class="about-list">
+    <li><span class="bullet">▸</span> Infrastructure as Code</li>
+    <li><span class="bullet teal">▸</span> Cloud Architecture (AWS)</li>
+    <li><span class="bullet">▸</span> Hands-on Tutorials</li>
+    <li><span class="bullet teal">▸</span> Mechanical Keyboard Design</li>
+    <li><span class="bullet">▸</span> Typing ASMR</li>
+  </ul>
+</Panel>
 
 <style>
   .about-list {

@@ -21,7 +21,7 @@ const { tabs } = Astro.props;
   </button>
   <ul class="nav-list">
     {tabs.map((tab, i) => (
-      <li><button class={`nav-item${i === 0 ? ' active' : ''}`} data-tab={tab.id}>{tab.label}</button></li>
+      <li><button class:list={['nav-item', { active: i === 0 }]} data-tab={tab.id}>{tab.label}</button></li>
     ))}
   </ul>
   <ThemeToggle />

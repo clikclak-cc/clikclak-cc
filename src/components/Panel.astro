@@ -1,0 +1,76 @@
+---
+interface Props {
+  id: string;
+  active?: boolean;
+  class?: string;
+  innerClass?: string;
+  noInner?: boolean;
+}
+
+const { id, active = false, class: className, innerClass, noInner = false } = Astro.props;
+---
+
+<section class:list={['panel', { active }, className]} data-panel={id}>
+  {noInner ? (
+    <slot />
+  ) : (
+    <div class:list={['panel-inner', innerClass]}>
+      <slot />
+    </div>
+  )}
+</section>
+
+<style>
+  .panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 4rem;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .panel.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .panel-inner {
+    max-width: 650px;
+    text-align: center;
+  }
+
+  .panel-inner :global(h2) {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .panel-inner :global(p) {
+    margin-bottom: 1.25rem;
+    line-height: 1.9;
+    font-size: 1.05rem;
+  }
+
+  .panel-inner :global(.panel-desc) {
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .panel {
+      padding: 1.5rem;
+    }
+
+    .panel-inner :global(h2) {
+      font-size: 2rem;
+    }
+  }
+</style>

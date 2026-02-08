@@ -1,7 +1,14 @@
-<section class="panel active" data-panel="logo">
-  <img src="/logo.svg" alt="clikclak" class="logo-img logo-dark" />
-  <img src="/logo-light.svg" alt="clikclak" class="logo-img logo-light" />
-</section>
+---
+import { Image } from 'astro:assets';
+import Panel from './Panel.astro';
+import logoDark from '../assets/logo.svg';
+import logoLight from '../assets/logo-light.svg';
+---
+
+<Panel id="logo" active noInner>
+  <Image src={logoDark} alt="clikclak" class="logo-img logo-dark" loading="eager" />
+  <Image src={logoLight} alt="clikclak" class="logo-img logo-light" loading="eager" />
+</Panel>
 
 <style>
   .logo-img {

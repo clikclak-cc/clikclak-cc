@@ -1,5 +1,7 @@
 ---
+import Panel from './Panel.astro';
 import Carousel from './Carousel.astro';
+import CarouselCard from './CarouselCard.astro';
 import type { Video } from '../data/youtube';
 
 interface Props {
@@ -9,39 +11,37 @@ interface Props {
 const { videos } = Astro.props;
 ---
 
-<section class="panel" data-panel="youtube">
-  <div class="panel-inner youtube-panel">
-    <h2 class="panel-title">YouTube</h2>
-    <p class="panel-desc">
-      Hands-on videos on infrastructure and coding, accompanied by the satisfying sounds of mechanical keyboards.
-    </p>
-    <Carousel wrapperClass="youtube-carousel-wrapper" carouselClass="video-carousel">
-      {videos.length > 0 ? (
-        videos.map((video) => (
-          <div class="carousel-card video-card">
-            <a href={video.url} target="_blank" rel="noopener noreferrer">
-              <div class="carousel-card-img video-thumbnail">
-                <img src={video.thumbnail} alt={video.title} loading="lazy" />
-                <span class="play-icon">▶</span>
-              </div>
-              <h3 class="carousel-card-title">{video.title}</h3>
-            </a>
-          </div>
-        ))
-      ) : (
-        <div class="carousel-card video-card placeholder">
-          <div class="carousel-card-img video-thumbnail">
-            <span class="play-icon">▶</span>
-          </div>
-          <h3 class="carousel-card-title">Coming Soon...</h3>
+<Panel id="youtube" innerClass="youtube-panel">
+  <h2>YouTube</h2>
+  <p class="panel-desc">
+    Hands-on videos on infrastructure and coding, accompanied by the satisfying sounds of mechanical keyboards.
+  </p>
+  <Carousel wrapperClass="youtube-carousel-wrapper" carouselClass="video-carousel">
+    {videos.length > 0 ? (
+      videos.map((video) => (
+        <CarouselCard class="video-card">
+          <a href={video.url} target="_blank" rel="noopener noreferrer">
+            <div class="carousel-card-img video-thumbnail">
+              <img src={video.thumbnail} alt={video.title} loading="lazy" />
+              <span class="play-icon">▶</span>
+            </div>
+            <h3 class="carousel-card-title">{video.title}</h3>
+          </a>
+        </CarouselCard>
+      ))
+    ) : (
+      <CarouselCard class="video-card placeholder">
+        <div class="carousel-card-img video-thumbnail">
+          <span class="play-icon">▶</span>
         </div>
-      )}
-    </Carousel>
-    <a href="https://www.youtube.com/@clikclak_cc" class="btn" target="_blank" rel="noopener noreferrer">
-      Visit Channel →
-    </a>
-  </div>
-</section>
+        <h3 class="carousel-card-title">Coming Soon...</h3>
+      </CarouselCard>
+    )}
+  </Carousel>
+  <a href="https://www.youtube.com/@clikclak_cc" class="btn" target="_blank" rel="noopener noreferrer">
+    Visit Channel →
+  </a>
+</Panel>
 
 <style>
   .youtube-panel {
@@ -104,5 +104,4 @@ const { videos } = Astro.props;
     transform: translateY(-2px);
     opacity: 1;
   }
-
 </style>

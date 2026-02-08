@@ -1,5 +1,7 @@
 ---
+import Panel from './Panel.astro';
 import Carousel from './Carousel.astro';
+import CarouselCard from './CarouselCard.astro';
 import type { Keyboard } from '../data/keyboards';
 
 interface Props {
@@ -9,24 +11,22 @@ interface Props {
 const { keyboards } = Astro.props;
 ---
 
-<section class="panel" data-panel="keyboards">
-  <div class="panel-inner keyboards-panel">
-    <h2 class="panel-title">Keyboards</h2>
-    <p class="panel-desc">Custom designed & favorite mechanical keyboards</p>
-    <Carousel wrapperClass="keyboards-carousel-wrapper" carouselClass="keyboard-carousel">
-      {keyboards.map((kb) => (
-        <div class="carousel-card keyboard-card">
-          <div class="carousel-card-img keyboard-img" data-src={kb.thumbnail} data-alt={kb.title}>
-            <img src={kb.thumbnail} alt={kb.title} loading="lazy" />
-          </div>
-          <a href={kb.url} target="_blank" rel="noopener noreferrer">
-            <h3 class="carousel-card-title">{kb.title}</h3>
-          </a>
+<Panel id="keyboards" innerClass="keyboards-panel">
+  <h2>Keyboards</h2>
+  <p class="panel-desc">Custom designed & favorite mechanical keyboards</p>
+  <Carousel wrapperClass="keyboards-carousel-wrapper" carouselClass="keyboard-carousel">
+    {keyboards.map((kb) => (
+      <CarouselCard class="keyboard-card">
+        <div class="carousel-card-img keyboard-img" data-src={kb.thumbnail} data-alt={kb.title}>
+          <img src={kb.thumbnail} alt={kb.title} loading="lazy" />
         </div>
-      ))}
-    </Carousel>
-  </div>
-</section>
+        <a href={kb.url} target="_blank" rel="noopener noreferrer">
+          <h3 class="carousel-card-title">{kb.title}</h3>
+        </a>
+      </CarouselCard>
+    ))}
+  </Carousel>
+</Panel>
 
 <style>
   .keyboards-panel {

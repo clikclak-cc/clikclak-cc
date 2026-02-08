@@ -1,0 +1,63 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={['carousel-card', className]}>
+  <slot />
+</div>
+
+<style>
+  .carousel-card {
+    flex-shrink: 0;
+    width: 260px;
+    scroll-snap-align: start;
+    padding-left: 0.5rem;
+  }
+
+  .carousel-card :global(a) {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .carousel-card :global(a:hover) {
+    opacity: 1;
+  }
+
+  .carousel-card :global(.carousel-card-img) {
+    background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg) 100%);
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .carousel-card:hover :global(.carousel-card-img) {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .carousel-card :global(.carousel-card-title) {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    text-align: left;
+    transition: color 0.3s ease;
+  }
+
+  .carousel-card:hover :global(.carousel-card-title) {
+    color: var(--color-accent-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .carousel-card {
+      width: 220px;
+    }
+  }
+</style>
