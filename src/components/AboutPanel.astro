@@ -4,44 +4,72 @@ import Panel from './Panel.astro';
 
 <Panel id="about">
   <h2>About</h2>
-  <p>
-    <strong>clikclak</strong> is a content brand that combines hands-on programming,
-    infrastructure, and IaC tutorials with mechanical keyboard ASMR experiences.
-  </p>
-  <p>
-    The sound of typing code, the rhythm of keystrokes.
-    Learn technology and create while enjoying the satisfying sounds of mechanical keyboards.
-  </p>
-  <ul class="about-list">
-    <li><span class="bullet">▸</span> Infrastructure as Code</li>
-    <li><span class="bullet teal">▸</span> Cloud Architecture (AWS)</li>
-    <li><span class="bullet">▸</span> Hands-on Tutorials</li>
-    <li><span class="bullet teal">▸</span> Mechanical Keyboard Design</li>
-    <li><span class="bullet">▸</span> Typing ASMR</li>
-  </ul>
+  <div class="features">
+    <div class="feature">
+      <i class="fa-solid fa-code feature-icon"></i>
+      <div class="feature-keyword accent">Code</div>
+      <div class="feature-desc">Programming & IaC<br>Tutorials</div>
+    </div>
+    <div class="feature">
+      <i class="fa-solid fa-headphones feature-icon"></i>
+      <div class="feature-keyword teal">ASMR</div>
+      <div class="feature-desc">Typing ASMR</div>
+    </div>
+    <div class="feature">
+      <i class="fa-solid fa-keyboard feature-icon"></i>
+      <div class="feature-keyword accent">Keyboard</div>
+      <div class="feature-desc">Mechanical Keyboard</div>
+    </div>
+  </div>
 </Panel>
 
 <style>
-  .about-list {
-    list-style: none;
-    display: inline-flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-    text-align: left;
+  .features {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
   }
 
-  .about-list li {
-    font-size: 1rem;
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+    transition: transform 0.2s ease;
+  }
+
+  .feature:hover .feature-icon {
+    transform: translateY(-3px);
+  }
+
+  .feature-keyword {
+    margin-bottom: 0.25rem;
+  }
+
+  .feature-keyword.accent {
+    color: var(--color-accent);
+  }
+
+  .feature-keyword.teal {
+    color: var(--color-accent-secondary);
+  }
+
+  .feature-desc {
+    font-size: 0.875rem;
     color: var(--color-text-muted);
   }
 
-  .bullet {
-    color: var(--color-accent);
-    margin-right: 0.75rem;
-  }
-
-  .bullet.teal {
-    color: var(--color-accent-secondary);
+  @media (max-width: 640px) {
+    .features {
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
   }
 </style>
