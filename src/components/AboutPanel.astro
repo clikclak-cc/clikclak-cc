@@ -12,7 +12,7 @@ import Panel from './Panel.astro';
     </div>
     <div class="feature">
       <i class="fa-solid fa-headphones feature-icon"></i>
-      <div class="feature-keyword teal">ASMR</div>
+      <div class="feature-keyword accent">ASMR</div>
       <div class="feature-desc">Typing ASMR</div>
     </div>
     <div class="feature">
@@ -41,14 +41,16 @@ import Panel from './Panel.astro';
     font-size: 2rem;
     margin-bottom: 0.5rem;
     color: var(--color-text);
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, color 0.3s ease;
   }
 
   .feature:hover .feature-icon {
     transform: translateY(-3px);
+    color: var(--color-accent-secondary);
   }
 
   .feature-keyword {
+    font-weight: 700;
     margin-bottom: 0.25rem;
   }
 
