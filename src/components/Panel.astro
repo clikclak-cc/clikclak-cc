@@ -25,6 +25,8 @@ const { id, active = false, class: className, innerClass, noInner = false } = As
     position: absolute;
     inset: 0;
     display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 2rem 4rem;
     overflow-y: auto;
     opacity: 0;
@@ -70,6 +72,7 @@ const { id, active = false, class: className, innerClass, noInner = false } = As
   @media (max-width: 640px) {
     .panel {
       padding: 1.5rem;
+      align-items: safe center;
     }
 
     .panel-inner :global(h2) {

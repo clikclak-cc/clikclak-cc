@@ -190,32 +190,70 @@ const { tabs } = Astro.props;
   const navItems = document.querySelectorAll('.nav-item');
   const panels = document.querySelectorAll('.panel');
 
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const tab = item.getAttribute('data-tab');
+  function switchTo(index: number) {
+    if (index < 0 || index >= navItems.length) return;
+    const item = navItems[index];
+    const tab = item.getAttribute('data-tab');
 
-      navItems.forEach(nav => nav.classList.remove('active'));
-      item.classList.add('active');
+    navItems.forEach(nav => nav.classList.remove('active'));
+    item.classList.add('active');
 
-      panels.forEach(panel => {
-        if (panel.getAttribute('data-panel') === tab) {
-          panel.classList.add('active');
-          panel.setAttribute('aria-hidden', 'false');
-        } else {
-          panel.classList.remove('active');
-          panel.setAttribute('aria-hidden', 'true');
-        }
-      });
-
-      if (tab === 'logo') {
-        document.body.classList.add('hide-bg');
+    panels.forEach(panel => {
+      if (panel.getAttribute('data-panel') === tab) {
+        panel.classList.add('active');
+        panel.setAttribute('aria-hidden', 'false');
       } else {
-        document.body.classList.remove('hide-bg');
+        panel.classList.remove('active');
+        panel.setAttribute('aria-hidden', 'true');
       }
-
-      hamburger?.classList.remove('open');
-      navList?.classList.remove('open');
-      hamburger?.setAttribute('aria-expanded', 'false');
     });
+
+    if (tab === 'logo') {
+      document.body.classList.add('hide-bg');
+    } else {
+      document.body.classList.remove('hide-bg');
+    }
+
+    hamburger?.classList.remove('open');
+    navList?.classList.remove('open');
+    hamburger?.setAttribute('aria-expanded', 'false');
+  }
+
+  function getActiveIndex() {
+    return Array.from(navItems).findIndex(item => item.classList.contains('active'));
+  }
+
+  navItems.forEach((item, i) => {
+    item.addEventListener('click', () => switchTo(i));
   });
+
+  // Keyboard: Left/Right arrow keys
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') {
+      switchTo(getActiveIndex() + 1);
+    } else if (e.key === 'ArrowLeft') {
+      switchTo(getActiveIndex() - 1);
+    }
+  });
+
+  // Mobile: Up/Down swipe
+  let touchStartY = 0;
+  let touchEndY = 0;
+  const swipeThreshold = 50;
+
+  document.addEventListener('touchstart', (e) => {
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', (e) => {
+    touchEndY = e.changedTouches[0].screenY;
+    const diff = touchStartY - touchEndY;
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        switchTo(getActiveIndex() + 1);
+      } else {
+        switchTo(getActiveIndex() - 1);
+      }
+    }
+  }, { passive: true });
 </script>
