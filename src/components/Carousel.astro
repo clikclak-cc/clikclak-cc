@@ -19,38 +19,7 @@ const { class: className = '', wrapperClass = '', carouselClass = '' } = Astro.p
     position: relative;
   }
 
-  .carousel-wrapper::before,
-  .carousel-wrapper::after {
-    content: '';
-    position: absolute;
-    top: var(--shadow-top, 0);
-    height: var(--shadow-height, 100%);
-    width: 30px;
-    pointer-events: none;
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .carousel-wrapper::before {
-    left: 0;
-    background: linear-gradient(to right, var(--color-bg), transparent);
-  }
-
-  .carousel-wrapper::after {
-    right: 0;
-    background: linear-gradient(to left, var(--color-bg), transparent);
-  }
-
-  :global(.carousel-wrapper.show-left)::before {
-    opacity: 1;
-  }
-
-  :global(.carousel-wrapper.show-right)::after {
-    opacity: 1;
-  }
-
-  .carousel {
+.carousel {
     display: flex;
     gap: 1.25rem;
     overflow-x: auto;
@@ -89,53 +58,3 @@ const { class: className = '', wrapperClass = '', carouselClass = '' } = Astro.p
   }
 </style>
 
-<script>
-  const wrappers = document.querySelectorAll('.carousel-wrapper');
-
-  wrappers.forEach(wrapper => {
-    const carousel = wrapper.querySelector('.carousel');
-    if (!carousel) return;
-
-    const updateShadows = () => {
-      const scrollLeft = carousel.scrollLeft;
-      const scrollWidth = carousel.scrollWidth;
-      const clientWidth = carousel.clientWidth;
-      const threshold = 20;
-
-      if (scrollLeft > threshold) {
-        wrapper.classList.add('show-left');
-      } else {
-        wrapper.classList.remove('show-left');
-      }
-
-      if (scrollLeft < scrollWidth - clientWidth - threshold) {
-        wrapper.classList.add('show-right');
-      } else {
-        wrapper.classList.remove('show-right');
-      }
-    };
-
-    const updateShadowPosition = () => {
-      const firstImg = carousel.querySelector('.video-thumbnail, .keyboard-img');
-      if (firstImg) {
-        const wrapperRect = wrapper.getBoundingClientRect();
-        const imgRect = firstImg.getBoundingClientRect();
-        (wrapper as HTMLElement).style.setProperty('--shadow-top', `${imgRect.top - wrapperRect.top}px`);
-        (wrapper as HTMLElement).style.setProperty('--shadow-height', `${imgRect.height}px`);
-      }
-    };
-
-    updateShadowPosition();
-    updateShadows();
-    carousel.addEventListener('scroll', updateShadows);
-
-    let resizeTimer: number;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(() => {
-        updateShadowPosition();
-        updateShadows();
-      }, 150);
-    });
-  });
-</script>

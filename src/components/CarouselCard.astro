@@ -37,9 +37,11 @@ const { class: className } = Astro.props;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .carousel-card:hover :global(.carousel-card-img) {
-    transform: scale(1.03);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  @media (hover: hover) {
+    .carousel-card:hover :global(.carousel-card-img) {
+      transform: scale(1.03);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
   }
 
   .carousel-card :global(.carousel-card-title) {
@@ -51,8 +53,10 @@ const { class: className } = Astro.props;
     transition: color 0.3s ease;
   }
 
-  .carousel-card:hover :global(.carousel-card-title) {
-    color: var(--color-accent-secondary);
+  @media (hover: hover) {
+    .carousel-card:hover :global(.carousel-card-title) {
+      color: var(--color-accent-secondary);
+    }
   }
 
   @media (max-width: 640px) {
