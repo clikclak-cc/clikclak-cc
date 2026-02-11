@@ -25,9 +25,8 @@ const { id, active = false, class: className, innerClass, noInner = false } = As
     position: absolute;
     inset: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 2rem 4rem;
+    overflow-y: auto;
     opacity: 0;
     transform: translateY(20px);
     pointer-events: none;
@@ -44,7 +43,9 @@ const { id, active = false, class: className, innerClass, noInner = false } = As
 
   .panel-inner {
     max-width: 650px;
+    width: 100%;
     text-align: center;
+    margin: auto;
   }
 
   .panel-inner :global(h2) {
