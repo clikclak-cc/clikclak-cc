@@ -75,10 +75,16 @@ const { tabs } = Astro.props;
     color: var(--color-accent);
   }
 
-  .nav-item:hover::after {
+  .nav-item:hover::after,
+  .nav-item:focus-visible::after {
     width: 100%;
     background: var(--color-accent-secondary);
     transition: width 0.3s ease, background 0s;
+  }
+
+  .nav-item:focus-visible {
+    color: var(--color-accent-secondary);
+    outline: none;
   }
 
   .nav-item.active::after {
@@ -236,20 +242,23 @@ const { tabs } = Astro.props;
     }
   });
 
-  // Mobile: Up/Down swipe
+  // Mobile: Up/Down swipe (横スワイプとの干渉を防止)
+  let touchStartX = 0;
   let touchStartY = 0;
-  let touchEndY = 0;
   const swipeThreshold = 50;
 
   document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
     touchStartY = e.changedTouches[0].screenY;
   }, { passive: true });
 
   document.addEventListener('touchend', (e) => {
-    touchEndY = e.changedTouches[0].screenY;
-    const diff = touchStartY - touchEndY;
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0) {
+    const diffX = Math.abs(e.changedTouches[0].screenX - touchStartX);
+    const diffY = touchStartY - e.changedTouches[0].screenY;
+    // 横移動が縦移動より大きい場合はカルーセル操作とみなしてスキップ
+    if (diffX > Math.abs(diffY)) return;
+    if (Math.abs(diffY) > swipeThreshold) {
+      if (diffY > 0) {
         switchTo(getActiveIndex() + 1);
       } else {
         switchTo(getActiveIndex() - 1);
