@@ -65,5 +65,8 @@
 
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    const color = newTheme === 'light' ? '#fffcf9' : '#292F36';
+    document.querySelectorAll('meta[name="theme-color"]').forEach(m => { m.setAttribute('content', color); });
   });
 </script>

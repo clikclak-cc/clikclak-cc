@@ -20,6 +20,8 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#292F36" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fffcf9" media="(prefers-color-scheme: light)" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 <title>{title}</title>
     <script is:inline>
@@ -27,6 +29,8 @@ const { title, description = "Programming, Infrastructure, IaC, and Mechanical K
         var saved = localStorage.getItem('theme');
         if (saved) {
           document.documentElement.setAttribute('data-theme', saved);
+          var color = saved === 'light' ? '#fffcf9' : '#292F36';
+          document.querySelectorAll('meta[name="theme-color"]').forEach(function(m) { m.content = color; });
         }
       })();
     </script>
